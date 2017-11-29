@@ -1,89 +1,43 @@
 'use strict';
 
-console.log('App.js is running');
+// arguments object - no longer bound with arrow function
 
-// JSX - JavaScript XML it is javascript extendsion like typescript
-// Balbel - is compiler jsx to javascript code or es6 to es5
-
-var app = {
-    title: 'Indecision App',
-    subtitle: 'Welcome home',
-    options: ['One', 'Two']
+var add = function add(a, b) {
+    //console.log(arguments);
+    return a + b;
 };
-var template = React.createElement(
-    'div',
-    null,
-    React.createElement(
-        'h1',
-        null,
-        app.title
-    ),
-    app.subtitle && React.createElement(
-        'p',
-        null,
-        app.subtitle
-    ),
-    app.options && app.options.length > 0 ? React.createElement(
-        'p',
-        null,
-        'Here your options'
-    ) : React.createElement(
-        'p',
-        null,
-        'No options'
-    ),
-    React.createElement(
-        'ol',
-        null,
-        React.createElement(
-            'li',
-            null,
-            'Item one'
-        ),
-        React.createElement(
-            'li',
-            null,
-            'Item two'
-        )
-    )
-);
+console.log(add(55, 1, 1001));
 
+// this keyword - no longer bound
+
+// arrow function - not bind it's own value (bind this parent)
+// normal function - bind it's own value (bind this itself)
+
+// foreach - like foreach($array as item){}
+// map - like foreach($array as &item){}
 var user = {
     name: 'Monchai',
-    age: 19,
-    location: 'Thailand'
-};
-function getLocation(location) {
-    if (location == "Thailand") {
-        return React.createElement(
-            'p',
-            null,
-            'Location : ',
-            location
-        );
+    cities: ['Thailand', 'New York'],
+    printPlacesLived: function printPlacesLived() {
+        var _this = this;
+
+        return this.cities.map(function (city) {
+            return _this.name + ' has lived in ' + city;
+        });
     }
-}
+};
+console.log(user.printPlacesLived());
 
-var userName = 'Mike';
-var userAge = 22;
-var userLocation = 'Thailand';
-var templateTwo = React.createElement(
-    'div',
-    null,
-    React.createElement(
-        'h1',
-        null,
-        user.name ? user.name : 'Anonymous'
-    ),
-    user.age && user.age >= 18 && React.createElement(
-        'p',
-        null,
-        'Age: ',
-        user.age
-    ),
-    getLocation(user.location)
-);
+// Chalenge area
+var multiplier = {
+    numbers: [4, 3, 7, 6],
+    multiplyBy: 2,
+    multiply: function multiply() {
+        var _this2 = this;
 
-var appRoot = document.getElementById('app');
-
-ReactDOM.render(template, appRoot);
+        return this.numbers.map(function (number) {
+            return _this2.multiplyBy * number;
+        });
+    }
+};
+console.log(multiplier.multiply());
