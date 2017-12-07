@@ -1,3 +1,13 @@
+const obj = {
+    name:'Vikram',
+    getName(){
+        return this.name;   
+    }
+};
+
+const getName = obj.getName.bind({name:"top"});
+console.log(getName());
+
 class IndecisionApp extends React.Component{
     render(){
         const title = "Indecision";
@@ -25,19 +35,36 @@ class Header extends React.Component {
     }
 }
 
+
+
 class Action extends React.Component {
+    handlePick(){
+        alert('handlePick');
+    }
     render(){
         return (
-            <button>What should I do</button>
+            <div>
+                <button onClick={this.handlePick}>What should I do</button>
+            </div>
         );
     }
 }
 
 class Options extends React.Component{
+    constructor(props){
+        // override method must use super(props) to keep props value
+        super(props);
+        // Override
+        this.handleRemoveAll = this.handleRemoveAll.bind(this);
+    }
+    handleRemoveAll(){
+        console.log(this.props.options);
+        alert('handleRemoveAll');
+    }
     render(){
         return (
             <div>
-                Options component here
+                <button onClick={this.handleRemoveAll}>Remove all</button>
                 <ol>
                 {
                     this.props.options.map((option)=><Option key={option} optionText={option}/>)
@@ -60,10 +87,22 @@ class Option extends React.Component{
 }
 
 class AddOption extends React.Component{
+    handleAddOption(e){
+        e.preventDefault();
+    
+        const option = e.target.elements.option.value.trim();
+        if(option){
+            alert(option);
+            e.target.elements.option.value = null;
+        }
+    }
     render(){
         return (
             <div>
-                AddOption component here
+                <form onSubmit={this.handleAddOption}>
+                    <input autoFocus type="text" name="option"/>
+                    <button type="submit">Add Option</button>
+                </form>
             </div>
         )
     }
