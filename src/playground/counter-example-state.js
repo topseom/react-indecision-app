@@ -6,8 +6,8 @@ class Counter extends React.Component{
         this.handleReset = this.handleReset.bind(this);
         // 1. default state value
         this.state = {
-            counter:0,
-            name:"Julie"
+            counter:props.counter,
+            name:props.name
         }
     }
     handleAddOne(){
@@ -65,4 +65,8 @@ class Counter extends React.Component{
         );
     }
 }
-ReactDOM.render(<Counter />,document.getElementById('app'));
+Counter.defaultProps = {
+    counter:100,
+    name:"Julie"
+}
+ReactDOM.render(<Counter counter={-10}/>,document.getElementById('app'));

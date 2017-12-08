@@ -1,3 +1,5 @@
+
+
 /*const obj = {
     name:'Vikram',
     getName(){
@@ -17,6 +19,10 @@ console.log(getName());*/
 // - state defined in component it'self
 // - state can be change by component it'self
 
+// stateless function component
+// - it's component use props only not have state
+// - it's for present component. not use logical
+
 class IndecisionApp extends React.Component{
     constructor(props){
         super(props);
@@ -26,8 +32,32 @@ class IndecisionApp extends React.Component{
         this.handleDeleteOption = this.handleDeleteOption.bind(this);
         this.handleEditOption = this.handleEditOption.bind(this);
         this.state = {
-            options:[]
+            options:props.options
         }
+    }
+    componentDidMount(){
+        try{
+            //when enter after render() 
+            const json = localStorage.getItem("options");
+            const options = JSON.parse(json);
+            if(options){
+                this.setState(()=>({ options }));
+            }
+            console.log("fetching data");
+        }catch(e){
+            //Do noting at all
+        }
+        
+    }
+    componentDidUpdate(prevProps,prevState){
+        //when state update
+        if(prevState.options.length !== this.state.options.length){
+            const json = JSON.stringify(this.state.options);
+            localStorage.setItem("options",json);
+        }
+    }
+    componentWillUnmount(){
+        console.log("componentWillUnmount")
     }
     handleDeleteOptions(){
         this.setState((prevState)=>{
@@ -45,29 +75,25 @@ class IndecisionApp extends React.Component{
             return 'This option already exists';
         }else{
             this.setState((prevState)=>{
-                let options = prevState.options;
-                options.push(option);
                 return{
-                    options
+                    options:prevState.options.concat([option])
                 }
             });
         }
     }
     handleDeleteOption(option){
         this.setState((prevState)=>{
-            let options = prevState.options;
-            options = options.filter((op)=>op!=option);
+            
             return{
-                options
+                options:prevState.options.filter((op)=>op!==option)
             }
         });
     }
     handleEditOption(option,index){
         this.setState((prevState)=>{
-            let options = prevState.options;
-            options[index] = option;
+            prevState.options[index] = option;
             return{
-                options
+                options:prevState.options
             }
         });
     }
@@ -95,65 +121,77 @@ class IndecisionApp extends React.Component{
         );
     }
 }
-
-class Header extends React.Component {
-    constructor(props){
-        super(props);
-    }
-    render(){
-        return (
-            <div>
-                <h1>{this.props.title}</h1>
-                <h2>{this.props.subtitle}</h2>
-            </div>
-        );
-    }
+IndecisionApp.defaultProps = {
+    options:[]
 }
 
-
-
-class Action extends React.Component {
-    render(){
-        return (
-            <div>
-                <button  
-                    onClick={this.props.handlePick}
-                    disabled={!this.props.hasOptions}
-                >
-                    What should I do
-                </button>
-            </div>
-        );
-    }
+const Header = (props)=>{
+    return (
+        <div>
+            <h1>{props.title}</h1>
+            <h2>{props.subtitle}</h2>
+        </div>
+    );
 }
 
-class Options extends React.Component{
-    constructor(props){
-        // override method must use super(props) to keep props value
-        super(props);
-        // Override
-    }
-    render(){
-        return (
-            <div>
-                <button onClick={this.props.handleDeleteOptions}>Remove all</button>
-                <ol>
-                {
-                    this.props.options.map((option,index)=>
-                        <Option 
-                            key={index} 
-                            handleDeleteOption={this.props.handleDeleteOption} 
-                            index={index} 
-                            optionText={option}
-                            handleEditOption={this.props.handleEditOption}
-                        />
-                    )
-                }
-                </ol>
-            </div>
-        );
-    }
+// Default Props
+Header.defaultProps = {
+    title:"Indecision"
 }
+
+const Action = (props)=>{
+    return (
+        <div>
+            <button  
+                onClick={props.handlePick}
+                disabled={!props.hasOptions}
+            >
+                What should I do
+            </button>
+        </div>
+    );
+}
+
+const Options = (props)=>{
+    return (
+        <div>
+            {
+                props.options.length > 0
+                ?
+                <div>
+                    <button onClick={props.handleDeleteOptions}>Remove all</button>
+                    <ol>
+                    {
+                        props.options.map((option,index)=>
+                            <Option 
+                                key={index} 
+                                handleDeleteOption={props.handleDeleteOption} 
+                                index={index} 
+                                optionText={option}
+                                handleEditOption={props.handleEditOption}
+                            />
+                        )
+                    }
+                    </ol>
+                </div>
+                :
+                <div>
+                   <p> Please Add option to get start! </p>
+                </div>
+            }
+            
+        </div>
+    );
+}
+/*const Option = (props)=>{
+    return(
+        <div>
+            <li>
+                {props.optionText}
+            </li>
+        </div>
+    ); 
+}*/
 
 class Option extends React.Component{
     constructor(props){
@@ -164,6 +202,7 @@ class Option extends React.Component{
             editMode:false
         }
     }
+    
     handleChangeMode(){
         this.setState((prevState)=>{
             return{
@@ -199,7 +238,7 @@ class Option extends React.Component{
                     :
                     <div>
                         {this.props.optionText}
-                        <button onClick={this.props.handleDeleteOption.bind(null,this.props.optionText)}>-</button>
+                        <button onClick={this.props.handleDeleteOption.bind(null,this.props.optionText)}>remove</button>
                         <button onClick={this.handleChangeMode}>edit</button>
                     </div>
                    
@@ -211,6 +250,7 @@ class Option extends React.Component{
         );
     }
 }
+
 
 class AddOption extends React.Component{
     constructor(props){
@@ -250,4 +290,14 @@ class AddOption extends React.Component{
     }
 }
 
-ReactDOM.render(<IndecisionApp/>,document.getElementById('app'))
+// // stateless function component
+// const User = (props)=>{
+//     return (
+//        <div>
+//             <p>Name: {props.name}</p>
+//             <p>Age: {props.age}</p>
+//        </div>
+//     );
+// }
+
+ReactDOM.render(<IndecisionApp />,document.getElementById('app'))
