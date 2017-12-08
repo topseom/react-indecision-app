@@ -1,5 +1,27 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
+
+
+/*const obj = {
+    name:'Vikram',
+    getName(){
+        return this.name;   
+    }
+};
+
+const getName = obj.getName.bind({name:"top"});
+console.log(getName());*/
+
+// it's object!
+// - props use to pass data between component
+// - props come from above(parent)
+// - props can't be change by component it'self
+
+// - state can change it'self not change props because it's parent
+// - state defined in component it'self
+// - state can be change by component it'self
+
+// stateless function component
+// - it's component use props only not have state
+// - it's for present component. not use logical
 
 class IndecisionApp extends React.Component{
     constructor(props){
@@ -277,4 +299,4 @@ class AddOption extends React.Component{
 //     );
 // }
 
-ReactDOM.render(<IndecisionApp />,document.getElementById('app'));
+ReactDOM.render(<IndecisionApp />,document.getElementById('app'))
