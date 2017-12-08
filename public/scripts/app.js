@@ -18,6 +18,15 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 const getName = obj.getName.bind({name:"top"});
 console.log(getName());*/
 
+// it's object!
+// - props use to pass data between component
+// - props come from above(parent)
+// - props can't be change by component it'self
+
+// - state can change it'self not change props because it's parent
+// - state defined in component it'self
+// - state can be change by component it'self
+
 var IndecisionApp = function (_React$Component) {
     _inherits(IndecisionApp, _React$Component);
 
