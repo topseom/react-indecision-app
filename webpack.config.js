@@ -11,9 +11,13 @@ module.exports = {
     },
     module: {
         rules:[{
-            loader: 'babel-loader',
-            test: /\.js$/,
+            loader: 'babel-loader', // don't forget create .babelrc to presets
+            test: /\.js$/,// file types loader on
             exclude: '/node_modules/'
         }]
+    },
+    devtool: 'cheap-module-eval-source-map', // for debug when is error have file deverlop mode
+    devServer: {
+        contentBase: path.join(__dirname,'public') // it store in memory for fast load
     }
 };
