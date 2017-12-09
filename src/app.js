@@ -1,9 +1,29 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-
 import IndecisionApp from './components/indecision-app';
+import 'normalize.css/normalize.css';
+import './styles/styles.scss';
 
 ReactDOM.render(<IndecisionApp />,document.getElementById('app'));
+
+
+// props children is value between close div class
+const Layout = (props)=>{
+    return(
+        <div>
+            <p>Header</p>
+            {props.children}
+            <p>Footer</p>
+        </div>
+    )
+}
+const template = (
+    <div>
+        <h1>This title Page1</h1>
+        <p>this is page1</p>
+    </div>
+);
+
 
 class OldSyntax  {
     constructor(){

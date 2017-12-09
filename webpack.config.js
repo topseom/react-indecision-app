@@ -14,6 +14,13 @@ module.exports = {
             loader: 'babel-loader', // don't forget create .babelrc to presets
             test: /\.js$/,// file types loader on
             exclude: '/node_modules/'
+        },{
+            test:/\.s?css$/,
+            use:[
+                'style-loader',
+                'css-loader',
+                'sass-loader'
+            ]
         }]
     },
     devtool: 'cheap-module-eval-source-map', // for debug when is error have file deverlop mode
