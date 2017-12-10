@@ -26,28 +26,36 @@ export default class Option extends React.Component{
     render(){
         return (
             <div>
-                <li>
+               
                 {
                     this.state.editMode
                     ?
                     <div>
-                        <form onSubmit={this.handleFormEdit}>
-                            <input name="edit" placeholder={this.props.optionText}/>
-                            <button type="submit">edit</button>
+                        <form className="option" onSubmit={this.handleFormEdit}>
+                            <input className="edit-option__input" name="edit" placeholder={this.props.optionText}/>
+                            <div>
+                                
+                                <button className="button button--link button button--link button--space" onClick={this.handleChangeMode}>view</button>
+                                <button className="button button--link" type="submit">edit</button>
+                            </div>
+                            
                         </form>
-                        <button onClick={this.handleChangeMode}>view</button>
+                        
+                        
                     </div>
                     :
-                    <div>
-                        {this.props.optionText}
-                        <button onClick={this.props.handleDeleteOption.bind(null,this.props.optionText)}>remove</button>
-                        <button onClick={this.handleChangeMode}>edit</button>
+                    <div className="option">
+                        <p className="option__text">{this.props.index+1}.{this.props.optionText}</p>
+                        <div>
+                            <button className="button button--link button--space" onClick={this.handleChangeMode}>edit</button>
+                            <button className="button button--link button--space" onClick={this.props.handleDeleteOption.bind(null,this.props.optionText)}>remove</button>
+                        </div>     
                     </div>
                    
                 }
                     
                     
-                </li>
+                
             </div>
         );
     }
